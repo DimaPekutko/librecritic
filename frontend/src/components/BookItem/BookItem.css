@@ -1,0 +1,14 @@
+.book_item_wrap {
+    /* width: 30%; */
+    min-height: 230px;
+    text-align: center;
+    /* border: 1px solid skyblue; */
+    margin-bottom: 10px;
+    border-radius: 10px;
+    opacity: 0.8;
+    box-shadow: 2px 2px 2px 2px var(--secondary-color);
+}
+
+.book_item_wrap:hover {
+    opacity: 1;
+}

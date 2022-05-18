@@ -1,10 +1,21 @@
-import Header from "../Header/Header";
+import BookItem from "../BookItem/BookItem";
 
 function CatalogPage() {
   return (
-      <div className="container">
-        <Header/>
-        hello
+      <div className="page container">
+        <div className="row">
+
+        <BookItem/>
+        <BookItem/>
+        <BookItem/>
+        <BookItem/>
+        <BookItem/>
+        <BookItem/>
+        <BookItem/>
+        <BookItem/>
+        <BookItem/>
+        <BookItem/>
+        </div>
       </div>
   );
 }

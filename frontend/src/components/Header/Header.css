@@ -1,5 +1,12 @@
 .Header {
     /* background-color: var(--font-color); */
     /* color: var(--secondary-color); */
-    border-bottom: 2px dotted var(--font-color);
+    border-bottom: 2px solid var(--selected-font-color);
+    padding-top: 10px;
+}
+
+.Header a {
+    color: var(--font-color);
+    text-decoration: none;
+    padding-left: 10px;
 }

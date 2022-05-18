@@ -1,18 +1,19 @@
+import { useContext } from "react"
+import { Link } from "react-router-dom"
+import AuthContext from "../../context/AuthContext"
 import "./Header.css"
 
 function Header() {
+
+    let {user, logout} = useContext(AuthContext)
+    
     return (
-        <div className="Header">
-            <nav className="navbar navbar-expand-lg">
-            <a className="navbar-brand" href>Navbar</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a className="nav-link" href>Link</a>
-                </li>
-                </ul>
-            </div>
-            </nav>
+        <div className="Header container-fluid">
+            <Link className="navbar-brand" to="/">LibreCritic</Link>
+            {user && <Link to="/me">@{user.username}</Link>}
+            {user && <a onClick={logout}>exit</a>}
+            {!user && <Link to="/login">Login</Link>}
+            {!user && <Link to="/register">Register</Link>}
         </div>
     )
 }
