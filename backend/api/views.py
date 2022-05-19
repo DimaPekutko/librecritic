@@ -7,7 +7,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import UserSerializer
+from .models import Book
+
+from .serializers import BookSerializer, UserSerializer
 
 
 @api_view(['GET'])
@@ -37,3 +39,9 @@ def register(request):
         user.save()
         return Response({"status": "signed up"})
     return Response(serializer._errors, status=400)
+
+@api_view(['POST'])
+def get_all_books(request):
+    books = Book.objects.all()
+    serializer = BookSerializer(books, many=True)
+    return Response(serializer.data, status=400)
