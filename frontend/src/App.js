@@ -6,6 +6,7 @@ import Header from "./components/Header/Header";
 import LoginPage from "./components/LoginPage/LoginPage";
 import { AuthProvider } from "./context/AuthContext";
 import RegisterPage from "./components/RegisterPage/RegisterPage";
+import BookPage from "./components/BookPage/BookPage";
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
           <Routes>
             <Route path="/" element={<CatalogPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />            
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/book/:id" element={<BookPage />} />        
           </Routes>
         </AuthProvider>
       </Router>

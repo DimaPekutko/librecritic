@@ -142,6 +142,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# AUTH_USER_MODEL="api.User"
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Internationalization

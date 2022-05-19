@@ -1,0 +1,21 @@
+.reviews_header {
+    border-top: 3px dotted var(--secondary-color);
+    text-align: center;
+}
+
+.reviews_wrap {
+    border: 2px solid var(--contrast-color);
+    /* border-top: 3px solid var(--contrast-color); */
+}
+
+@media (min-width: 768px) {
+    .reviews_wrap{        
+        width: 90%;
+        border-top-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+}
+
+.review_username {
+    padding-left: 10px;
+}

@@ -40,8 +40,21 @@ def register(request):
         return Response({"status": "signed up"})
     return Response(serializer._errors, status=400)
 
+
 @api_view(['POST'])
 def get_all_books(request):
     books = Book.objects.all()
     serializer = BookSerializer(books, many=True)
     return Response(serializer.data)
+
+@api_view(['POST'])
+def get_book(request):
+    print(request.data)
+    if "id" in request.data:
+        try:
+            book = Book.objects.get(id=request.data["id"])
+        except Book.DoesNotExist:
+            return Response(status=400)
+        serializer = BookSerializer(book)
+        return Response(serializer.data)
+    return Response(status=400)

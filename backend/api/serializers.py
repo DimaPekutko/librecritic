@@ -5,19 +5,14 @@ from django.contrib.auth import get_user_model
 
 from .models import Book
 
+User = get_user_model()
 
-class UserSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    email    = serializers.EmailField()
-
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ['password']
 
 class BookSerializer(serializers.ModelSerializer):
-    # title       = serializers.CharField()
-    # img_src     = serializers.URLField()
-    # author      = serializers.CharField()
-    # desc        = serializers.CharField()
-    # rating      = serializers.FloatField()
-    # votes_count = serializers.IntegerField()
     class Meta:
         model = Book
         fields = '__all__'

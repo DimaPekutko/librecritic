@@ -32,6 +32,41 @@ export const AuthProvider = ({children}) => {
         return await res.json()
     }
 
+    const fetchPOST = async (addr, body=null) => {
+        const _fetch = async (access, _body) => {
+            const response = await fetch(addr, {
+                "method": "POST",
+                "headers": {
+                    "Content-Type":"application/json" ,
+                    "Authorization" : "Bearer " + String(access)
+                },
+                "body": _body
+            })
+            return response
+        }
+
+        const response = await _fetch(addr, body)
+        
+        if (response.status === 401) {
+            let refresh_resp = await _fetch('/api/token/refresh/',
+                JSON.stringify({'refresh':tokens?.refresh}))
+            if (refresh_resp.status === 200) {
+                const data = await refresh_resp.json()
+                const user = await get_user_data(data.access)
+                setTokens(data)
+                setUser(user)
+                localStorage.setItem("auth_tokens", JSON.stringify(data))
+                localStorage.setItem("user_data", JSON.stringify(user))
+                return await _fetch(data.access)
+            }
+            else {
+                logout()
+            }
+        }
+
+        return response
+    }
+
     const login = async (e) => {
         e.preventDefault()
         const res = await fetch("/api/token/", {
@@ -55,8 +90,7 @@ export const AuthProvider = ({children}) => {
         }
     }
 
-    const logout = async (e) => {
-        e.preventDefault()
+    const logout = async () => {
         setTokens(null)
         setUser(null)
         localStorage.removeItem("auth_tokens")
@@ -68,7 +102,9 @@ export const AuthProvider = ({children}) => {
         <AuthContext.Provider value={{
             login: login,
             logout: logout,
-            user: user
+            user: user,
+            tokens: tokens,
+            setTokens: setTokens
         }}>
             {children}
         </AuthContext.Provider>

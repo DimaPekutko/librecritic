@@ -6,6 +6,8 @@ function CatalogPage() {
 
   const [books, setBooks] = useState([]);
   
+  let books_recieved = false
+
   
   useEffect(() => {
     getBooks()
@@ -21,6 +23,7 @@ function CatalogPage() {
     if (res.status === 200) {
       const data = await res.json()
       setBooks(data)
+      console.log("hello")
     }
   }
 
@@ -32,6 +35,7 @@ function CatalogPage() {
             books.map((book)=>{
               return (
                 <BookItem 
+                  id={book.id}
                   key={book.id}
                   title={book.title}
                   img_src={book.img_src}
