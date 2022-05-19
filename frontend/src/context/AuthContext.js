@@ -45,24 +45,24 @@ export const AuthProvider = ({children}) => {
             return response
         }
 
-        const response = await _fetch(addr, body)
+        const response = await _fetch(tokens?.access, body)
         
-        if (response.status === 401) {
-            let refresh_resp = await _fetch('/api/token/refresh/',
-                JSON.stringify({'refresh':tokens?.refresh}))
-            if (refresh_resp.status === 200) {
-                const data = await refresh_resp.json()
-                const user = await get_user_data(data.access)
-                setTokens(data)
-                setUser(user)
-                localStorage.setItem("auth_tokens", JSON.stringify(data))
-                localStorage.setItem("user_data", JSON.stringify(user))
-                return await _fetch(data.access)
-            }
-            else {
-                logout()
-            }
-        }
+        // if (response.status === 401) {
+        //     let refresh_resp = await _fetch('/api/token/refresh/',
+        //         JSON.stringify({'refresh':tokens?.refresh}))
+        //     if (refresh_resp.status === 200) {
+        //         const data = await refresh_resp.json()
+        //         const user = await get_user_data(data.access)
+        //         setTokens(data)
+        //         setUser(user)
+        //         localStorage.setItem("auth_tokens", JSON.stringify(data))
+        //         localStorage.setItem("user_data", JSON.stringify(user))
+        //         return await _fetch(data.access)
+        //     }
+        //     // else {
+        //     //     logout()
+        //     // }
+        // }
 
         return response
     }
@@ -95,7 +95,7 @@ export const AuthProvider = ({children}) => {
         setUser(null)
         localStorage.removeItem("auth_tokens")
         localStorage.removeItem("user_data")
-        navigate("/login")
+        // navigate("/login")
     }
 
     return (
@@ -104,7 +104,8 @@ export const AuthProvider = ({children}) => {
             logout: logout,
             user: user,
             tokens: tokens,
-            setTokens: setTokens
+            setTokens: setTokens,
+            apiFetchPOST: fetchPOST
         }}>
             {children}
         </AuthContext.Provider>

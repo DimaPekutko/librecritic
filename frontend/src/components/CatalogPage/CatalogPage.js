@@ -23,7 +23,6 @@ function CatalogPage() {
     if (res.status === 200) {
       const data = await res.json()
       setBooks(data)
-      console.log("hello")
     }
   }
 

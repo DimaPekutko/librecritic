@@ -16,3 +16,13 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+class BookReview(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
+    content = models.TextField()
+    rating = models.FloatField(default=0, max_length=5, editable=False)
+
+    def __str__(self):
+        return self.content
+

@@ -1,18 +1,26 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
+import ReviewPost from "../ReviewPost/ReviewPost";
 import StarProgressBar from "../StarProgressBar/StarProgressBar"
+
+import AuthContext from "../../context/AuthContext"
 
 import "./BookPage.css"
 
 const BookPage = () => {
 
     const [book, setBook] = useState(null);
+    const [reviews, setReviews] = useState([]);
+
+    const {apiFetchPOST} = useContext(AuthContext)
+
     const params = useParams()
     const bookId = params.id
 
     useEffect(() => {
-        getBook()        
-    });
+        getBook()
+        getReviews()
+    }, []);
 
     const getBook = async () => {
         const response = await fetch("/api/book/", {
@@ -26,6 +34,17 @@ const BookPage = () => {
         if (response.status === 200) {
             const data = await response.json()
             setBook(data)
+        }
+    }
+
+    const getReviews = async () => {
+        const response = await apiFetchPOST("/api/book_reviews/",
+            JSON.stringify({"book_id": bookId})
+        )
+
+        if (response.status === 200) {
+            const data = await response.json()
+            setReviews(data)
         }
     }
     
@@ -54,16 +73,18 @@ const BookPage = () => {
                         </div>
                         <div className="row d-flex align-items-center">
                             <div className="container reviews_wrap">
-                                <div className="row review">
-                                    <div className="col-md-3">
-                                        <StarProgressBar rating={2.4}/>
-                                        <p className="review_username">@dkefir03</p>
-                                    </div>
-                                    <div className="col-md-9 pt-2">
-                                        <p><b>Review:</b></p>
-                                        <p>lorem imde amd ieoad ioeajod ijeaoi djeaio jdoieaj oidjie jaoidj oieajd ieajo jdoieaj iodjeao idjieoa dkaopdk waopd kpowak dpowak pdok</p>
-                                    </div>
-                                </div>
+                                {
+                                    reviews.map((review) => {
+                                        return (
+                                            <ReviewPost 
+                                                key={review?.id} 
+                                                username={review?.user.username}
+                                                content={review?.content}
+                                                rating={review?.rating}    
+                                            />
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                     </div>

@@ -51,3 +51,14 @@ a, .nav-link:hover {
   min-height: 100vh;
   padding-top: 30px;
 }
+
+.username {
+  /* color: var(--selected-font-color); */
+  /* font-weight: bold; */
+  /* font-style: oblique; */
+  /* color: skyblue; */
+  /* font-weight: bold; */
+  /* color: var(--selected-font-color); */
+  cursor: pointer;
+  text-decoration: underline;
+}

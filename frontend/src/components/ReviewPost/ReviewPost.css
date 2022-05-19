@@ -1,0 +1,16 @@
+
+.review {
+    border: 2px solid var(--contrast-color);
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.review_desc_wrap {
+    border-left: 1px solid var(--secondary-color);
+    padding-left: 30px;
+}
+
+.review_username {
+    padding-left: 10px;
+    font-size: 18px;
+}

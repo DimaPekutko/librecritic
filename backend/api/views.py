@@ -7,9 +7,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import Book
+from .models import Book, BookReview
 
-from .serializers import BookSerializer, UserSerializer
+from .serializers import BookReviewSerializer, BookSerializer, UserSerializer
+
+User = get_user_model()
 
 
 @api_view(['GET'])
@@ -47,14 +49,30 @@ def get_all_books(request):
     serializer = BookSerializer(books, many=True)
     return Response(serializer.data)
 
+
 @api_view(['POST'])
 def get_book(request):
-    print(request.data)
     if "id" in request.data:
         try:
             book = Book.objects.get(id=request.data["id"])
+            serializer = BookSerializer(book)
+            return Response(serializer.data)
         except Book.DoesNotExist:
             return Response(status=400)
-        serializer = BookSerializer(book)
-        return Response(serializer.data)
+    return Response(status=400)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def get_book_reviews(request):
+    if "book_id" in request.data:
+        try:
+            Book.objects.get(id=request.data["book_id"]) # for error except
+            reviews = BookReview.objects.filter(
+                book_id=request.data["book_id"])
+            print(reviews)
+            serializer = BookReviewSerializer(reviews, many=True)
+            return Response(serializer.data)
+        except Book.DoesNotExist:
+            return Response(status=400)
     return Response(status=400)
