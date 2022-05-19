@@ -44,4 +44,4 @@ def register(request):
 def get_all_books(request):
     books = Book.objects.all()
     serializer = BookSerializer(books, many=True)
-    return Response(serializer.data, status=400)
+    return Response(serializer.data)

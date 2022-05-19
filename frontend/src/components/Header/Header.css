@@ -1,7 +1,7 @@
 .Header {
     /* background-color: var(--font-color); */
     /* color: var(--secondary-color); */
-    border-bottom: 2px solid var(--selected-font-color);
+    border-bottom: 2px solid var(--contrast-color);
     padding-top: 10px;
 }
 
@@ -9,4 +9,10 @@
     color: var(--font-color);
     text-decoration: none;
     padding-left: 10px;
+    font-weight: bold;
+}
+
+.Header a:hover {
+    color: var(--selected-font-color);
+    /* border: 1px solid red; */
 }

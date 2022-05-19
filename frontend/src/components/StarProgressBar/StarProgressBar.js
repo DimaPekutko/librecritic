@@ -1,7 +1,7 @@
 import React from "react";
 import "./StarProgressBar.css"
 
-const StarProgressBar = () => {
+const StarProgressBar = (props) => {
   return (
     <div className="book_rating_bar d-flex">
       <svg className="main_svg">
@@ -35,12 +35,12 @@ const StarProgressBar = () => {
         </defs>
       </svg>
       <div className="rating">
-        <progress className="rating-bg" value="4.5" max="5"></progress>
+        <progress className="rating-bg" value={props.rating} max="5"></progress>
         <svg>
           <use xlinkHref="#fivestars" />
         </svg>
       </div>
-      <span>4.5</span>
+      <span>{props.rating}</span>
     </div>
   );
 };

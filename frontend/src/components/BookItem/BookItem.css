@@ -5,8 +5,14 @@
     /* border: 1px solid skyblue; */
     margin-bottom: 10px;
     border-radius: 10px;
-    opacity: 0.8;
+    opacity: 0.9;
     box-shadow: 2px 2px 2px 2px var(--secondary-color);
+    color: white;
+}
+
+.book_item_link {
+    text-decoration: none;
+
 }
 
 .book_item_wrap:hover {

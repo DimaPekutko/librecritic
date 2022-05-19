@@ -3,7 +3,8 @@
   --secondary-color: rgb(24, 42, 0);
   --third-color: rgb(105, 105, 105);
   --font-color: rgb(255, 255, 255);
-  --selected-font-color: rgba(197, 38, 38, 0.822);   
+  --selected-font-color: rgba(20, 201, 242, 0.822);   
+  --contrast-color: rgba(197, 38, 38, 0.822);   
 }
 
 body {
@@ -31,7 +32,7 @@ body {
   font-size: 25px;
 }
 
-a, .nav-link {
+/* a, .nav-link {
   color: var(--selected-font-color);
 }
 
@@ -40,7 +41,7 @@ a, .nav-link:focus {
 }
 a, .nav-link:hover {
   color: var(--selected-font-color);
-}
+} */
 
 .page {
   background: var(--primary-color);
