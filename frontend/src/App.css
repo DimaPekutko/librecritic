@@ -13,7 +13,7 @@ body {
 
 @media (min-width: 1200px) {
   .container{
-      max-width: 900px;
+      max-width: 1000px;
   }
 }
 
@@ -30,6 +30,11 @@ body {
 
 .navbar-brand {
   font-size: 25px;
+}
+
+.contrast_msg {
+  font-style: oblique;
+  color: var(--selected-font-color);
 }
 
 /* a, .nav-link {

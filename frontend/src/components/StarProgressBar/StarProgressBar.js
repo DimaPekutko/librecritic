@@ -34,7 +34,7 @@ const StarProgressBar = (props) => {
           </symbol>
         </defs>
       </svg>
-      <div className="rating">
+      <div onClick={props.onClick} className="rating">
         <progress className="rating-bg" value={props.rating} max="5"></progress>
         <svg>
           <use xlinkHref="#fivestars" />

@@ -1,0 +1,29 @@
+
+.review_form {
+    /* border: 1px solid var(--font-color); */
+    border: none;
+}
+
+.review_form textarea {
+    background: var(--primary-color);
+    border: 2px solid var(--font-color);
+    color: var(--font-color);
+    min-height: 20vh;
+    width: 100%;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.review_form button {
+    margin-right: 20px;
+}
+
+.update_btn {
+    background: orange;
+}
+
+.delete_btn {
+    background: var(--contrast-color);
+    color: var(--font-color);
+}

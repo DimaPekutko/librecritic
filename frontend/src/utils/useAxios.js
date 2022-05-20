@@ -12,7 +12,6 @@ const useAxios = () => {
         headers:{Authorization: `Bearer ${authTokens?.access}`}
     });
 
-
     axiosInstance.interceptors.request.use(async req => {
     
         const user = jwt_decode(authTokens.access)
@@ -32,7 +31,6 @@ const useAxios = () => {
         req.headers.Authorization = `Bearer ${response.data.access}`
         return req
     })
-    
     return axiosInstance
 }
 

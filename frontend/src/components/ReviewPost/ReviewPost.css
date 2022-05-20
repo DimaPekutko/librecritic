@@ -3,7 +3,12 @@
     border: 2px solid var(--contrast-color);
     border-top-right-radius: 20px;
     border-bottom-left-radius: 20px;
+    word-break:break-all;
 }
+
+/* .review p {
+    white-space: normal;
+} */
 
 .review_desc_wrap {
     border-left: 1px solid var(--secondary-color);
