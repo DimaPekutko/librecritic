@@ -13,12 +13,6 @@ from .serializers import BookReviewSerializer, BookSerializer, ReviewUserSeializ
 
 User = get_user_model()
 
-
-@api_view(['GET'])
-def get_some(request):
-    return Response({"works": "well"})
-
-
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def get_user_info(request):
@@ -62,7 +56,6 @@ def get_book(request):
 
 
 @api_view(['POST'])
-# @permission_classes([IsAuthenticated])
 def get_book_reviews(request):
     if "book_id" in request.data:
         try:

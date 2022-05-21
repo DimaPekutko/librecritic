@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AbstractUser
 
 User = get_user_model()
 User._meta.get_field('email')._unique = True
@@ -25,9 +24,5 @@ class BookReview(models.Model):
     
     def __str__(self):
         return self.content
-
-    def create(self, data):
-        print("create")
-        print(data)
 
 
