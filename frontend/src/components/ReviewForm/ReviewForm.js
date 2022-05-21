@@ -1,6 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import StarProgressBar from "../StarProgressBar/StarProgressBar";
 
+import useAxios from "../../utils/useAxios"
 import AuthContext from "../../context/AuthContext";
 
 import "./ReviewForm.css";
@@ -16,6 +17,8 @@ const ReviewForm = (props) => {
   });
 
   const [formMsg, setFormMsg] = useState("");
+
+  const apiFetch = useAxios()
 
   const onStarProgressClick = (e) => {
     let progressBound = e.target.getBoundingClientRect();
@@ -41,7 +44,7 @@ const ReviewForm = (props) => {
   };
 
   const isFormValid = () => {
-    if (reviewData.content.length < 50) {
+    if (!reviewData.content?.length || reviewData.content?.length < 50) {
       setFormMsg("You should type content (>50 symbols)!");
       return false;
     }
@@ -55,57 +58,33 @@ const ReviewForm = (props) => {
 
   const onCreate = async (e) => {
     if (isFormValid()) {
-      const response = await fetch("/api/create_review/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(tokens.access),
-        },
-        body: JSON.stringify({
-          user_id: reviewData.user_id,
-          book_id: reviewData.book_id,
-          content: reviewData.content,
-          rating: reviewData.rating,
-        }),
-      });
-
+      await apiFetch.post("/api/create_review/", {
+        user_id: reviewData.user_id,
+        book_id: reviewData.book_id,
+        content: reviewData.content,
+        rating: reviewData.rating,
+      })
       window.location.reload();
     }
   };
 
   const onUpdate = async (e) => {
     if (isFormValid()) {
-      const response = await fetch("/api/update_review/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(tokens.access),
-        },
-        body: JSON.stringify({
-          user_id: reviewData.user_id,
-          book_id: reviewData.book_id,
-          content: reviewData.content,
-          rating: reviewData.rating,
-        }),
-      });
+      console.log(reviewData.content)
+      await apiFetch.post("/api/update_review/", {
+        id: props.user_review?.id,
+        content: reviewData.content,
+        rating: reviewData.rating,
+      })
 
       window.location.reload();
     }
   };
 
   const onDelete = async (e) => {
-    const response = await fetch("/api/delete_review/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + String(tokens.access),
-      },
-      body: JSON.stringify({
-        id: props.user_review?.id,
-      }),
-    });
-
-    // console.log(await response.json())
+    await apiFetch.post("/api/delete_review/", {
+      id: props.user_review?.id,
+    })
 
     window.location.reload();
   };

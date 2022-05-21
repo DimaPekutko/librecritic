@@ -4,11 +4,12 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from .views import get_some, get_user_info, register, get_all_books, get_book, get_book_reviews, create_review, update_review, delete_review
+from .views import get_some, get_user_info, register, get_all_books, get_book, get_book_reviews, create_review, update_review, delete_review, get_user_reviews
 
 urlpatterns = [
     path('', get_some),
     path('user/', get_user_info),
+    path('user_reviews/', get_user_reviews),
     path('register/', register),
     path('books/', get_all_books),
     path('book/', get_book),

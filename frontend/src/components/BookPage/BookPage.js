@@ -13,7 +13,7 @@ const BookPage = () => {
   const [reviews, setReviews] = useState([]);
   const [userReview, setUserReview] = useState(null)
 
-  const { apiFetchPOST, user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const params = useParams();
   const bookId = Number(params.id);
@@ -50,7 +50,7 @@ const BookPage = () => {
     if (response.status === 200) {
       const data = await response.json();
       for (let review of data) {
-          if (review.user.id === user.id) {
+          if (review.user?.id === user?.id) {
             setUserReview(review)
           }
       }
@@ -65,7 +65,7 @@ const BookPage = () => {
         <div>
           <div className="row container">
             <div className="col-md-4">
-              <img className="img-fluid" src={book.img_src} />
+              <img className="img-fluid" alt={"Book page"} src={book.img_src} />
             </div>
             <div className="col-md-8 container">
               <StarProgressBar rating={book.rating} />
@@ -85,7 +85,7 @@ const BookPage = () => {
           <div className="row d-flex align-items-center">
             <div className="container reviews_wrap">
               {/* review form */}
-              {user ? (
+              {userReview ? (
                 <ReviewForm user_review={userReview} book_id={bookId} />
               ) : (
                 <p className="text-center contrast_msg">

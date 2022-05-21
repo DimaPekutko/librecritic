@@ -86,7 +86,9 @@ def create_review(request):
         return Response(serializer._errors, status=400)
 
     # if undefined book
-    if not Book.objects.filter(id=serializer.initial_data["book_id"]).exists():
+    if not Book.objects.filter(
+        id=serializer.initial_data["book_id"],
+    ).exists():
         return Response("Undefined book for sent id", status=400)
 
     book = Book.objects.get(id=serializer.initial_data["book_id"])
@@ -123,24 +125,20 @@ def update_review(request):
     if not serializer.is_valid():
         return Response(serializer._errors, status=400)
 
-    # if undefined book
-    if not Book.objects.filter(id=serializer.initial_data["book_id"]).exists():
-        return Response("Undefined book for sent id", status=400)
-
     if not BookReview.objects.filter(
-        book_id=serializer.initial_data["book_id"],
+        id=serializer.initial_data["id"],
         user_id=request.user.id
     ).exists():
         return Response("Undefined review for sent user_id or book_id", status=400)
 
-    book = Book.objects.get(id=serializer.initial_data["book_id"])
+    review = BookReview.objects.get(
+        id=serializer.initial_data["id"],
+        user_id=request.user.id,
+    )
+    book = Book.objects.get(id=review.book_id)
 
     # update book review
-    review = BookReview.objects.get(
-        user_id=request.user.id,
-        book_id=serializer.initial_data["book_id"]
-    )
-    review.content = serializer.initial_data["content"],
+    review.content = serializer.initial_data["content"]
     review.rating = serializer.initial_data["rating"]
 
     review.save()
@@ -167,7 +165,32 @@ def delete_review(request):
 
     review_id = request.data["id"]
 
-    review = BookReview.objects.filter(id=review_id)
-    if review.exists():
-        review.delete()
+    if not BookReview.objects.filter(
+        id=review_id,
+        user_id=request.user.id
+    ).exists():
+        return Response("Undefined review for sent id and user_id", status=400)
+
+    review = BookReview.objects.get(id=review_id, user_id=request.user.id)
+    book = Book.objects.get(id=review.book_id)
+    if book.votes_count == 1:
+        book.rating = 0
+    else:
+        book.rating = round(
+            float((book.rating*int(book.votes_count) -
+                   review.rating))/(book.votes_count-1), 2)
+    book.votes_count -= 1
+    book.save()
+    review.delete()
     return Response({"status": "deleted"})
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def get_user_reviews(request):
+    reviews = BookReview.objects.filter(
+        user_id=request.user.id
+    )
+
+    serializer = BookReviewSerializer(reviews, many=True)
+    return Response(serializer.data)

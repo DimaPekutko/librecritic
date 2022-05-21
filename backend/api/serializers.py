@@ -22,9 +22,10 @@ class BookSerializer(serializers.ModelSerializer):
 
 class BookReviewSerializer(serializers.ModelSerializer):
     user = ReviewUserSeializer(required=False)
+    book = BookSerializer(required=False)
     class Meta:
         model = BookReview
-        fields = ["id","content", "rating", "user"]
+        fields = ["id","content", "rating", "user", "book"]
 
     def validate(self, value):
         if value["rating"] > 5.0:
