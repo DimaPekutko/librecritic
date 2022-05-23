@@ -2,7 +2,7 @@ name: Heroku Main Production Workflow
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   test:
     runs-on: ubuntu-latest
