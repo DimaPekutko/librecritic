@@ -1,15 +1,18 @@
+import asyncio
 from django.contrib.auth import get_user_model
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+
+from asgiref.sync import sync_to_async
 
 from .models import Book, BookReview
 
 from .serializers import BookReviewSerializer, BookSerializer, ReviewUserSeializer, UserSerializer
+
 
 User = get_user_model()
 
@@ -68,6 +71,7 @@ def get_book_reviews(request):
             return Response(status=400)
     return Response(status=400)
 
+    
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -84,27 +88,37 @@ def create_review(request):
     ).exists():
         return Response("Undefined book for sent id", status=400)
 
-    book = Book.objects.get(id=serializer.initial_data["book_id"])
+    book = Book.objects.get(id=serializer.initial_data["book_id"]) 
 
-    # create book review
-    BookReview.objects.create(
-        user_id=request.user.id,
-        book_id=serializer.initial_data["book_id"],
-        content=serializer.initial_data["content"],
-        rating=serializer.initial_data["rating"]
-    )
+    async def _create_review():
+        await sync_to_async(BookReview.objects.create)(
+            user_id=request.user.id,
+            book_id=serializer.initial_data["book_id"],
+            content=serializer.initial_data["content"],
+            rating=serializer.initial_data["rating"]
+        )
+        return 0
 
-    # update book rating
-    book.votes_count += 1
-    if book.votes_count == 1:
-        book.rating = serializer.initial_data["rating"]
-    else:
-        book.rating = round(
-            float(book.rating*int(book.votes_count-1) +
-                  float(serializer.initial_data["rating"]))/book.votes_count,
-            2)
-
-    book.save()
+    async def _update_book_rating():
+        book.votes_count += 1
+        if book.votes_count == 1:
+            book.rating = serializer.initial_data["rating"]
+        else:
+            book.rating = round(
+                float(book.rating*int(book.votes_count-1) +
+                    float(serializer.initial_data["rating"]))/book.votes_count,
+                2)
+        await sync_to_async(book.save)()
+        return 0
+    
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    tasks = [
+        loop.create_task(_create_review()),
+        loop.create_task(_update_book_rating())
+    ]
+    loop.run_until_complete(asyncio.wait(tasks))
+    loop.close()
 
     return Response({"status": "created"})
 
