@@ -1,6 +1,10 @@
+# JS stuff
+node_modules
+frontend_
+
+# Dev stuff
 .git
 .gitignore
 LICENSE
 README.md
 .vscode
-node_modules

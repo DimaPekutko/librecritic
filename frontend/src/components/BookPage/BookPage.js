@@ -54,7 +54,6 @@ const BookPage = () => {
             setUserReview(review)
           }
       }
-
       setReviews(data);
     }
   };
@@ -84,8 +83,8 @@ const BookPage = () => {
           </div>
           <div className="row d-flex align-items-center">
             <div className="container reviews_wrap">
-              {/* review form */}
-              {userReview ? (
+              {/* review form */ }
+              {user ? (
                 <ReviewForm user_review={userReview} book_id={bookId} />
               ) : (
                 <p className="text-center contrast_msg">

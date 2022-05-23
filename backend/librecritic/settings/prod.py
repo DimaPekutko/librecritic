@@ -8,6 +8,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "dmitry") # TODO set SECRET_KEY for pr
 DEBUG = False
 ALLOWED_HOSTS = [os.environ.get("PRODUCTION_HOST")] # TODO add heroku app url or create env var with url
 
+CSRF_TRUSTED_ORIGINS = ["https://"+str(os.environ.get("PRODUCTION_HOST"))]
+
 INSTALLED_APPS.extend(["whitenoise.runserver_nostatic"])
 
 # Must insert after SecurityMiddleware, which is first in settings/common.py

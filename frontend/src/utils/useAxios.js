@@ -14,14 +14,14 @@ const useAxios = () => {
 
     axiosInstance.interceptors.request.use(async req => {
     
-        console.log("req")
+        console.log("new api request")
 
         const user = jwt_decode(tokens.access)
         const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
     
         if(!isExpired) return req
     
-        console.log("refresh")
+        console.log("update refresh token")
 
         const response = await axios.post(`/api/token/refresh/`, {
             refresh: tokens.refresh

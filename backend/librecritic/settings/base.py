@@ -168,4 +168,4 @@ STATIC_URL = '/static/'
 # Appends slash to url if not provided
 APPEND_SLASH = True
 
-# MIGRATION_MODULES = {'service': 'service.models.migrations'}
+# MIGRATION_MODULES = {'api': 'api.models.migrations'}

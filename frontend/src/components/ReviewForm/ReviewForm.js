@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import StarProgressBar from "../StarProgressBar/StarProgressBar";
 
 import useAxios from "../../utils/useAxios"
@@ -19,6 +19,15 @@ const ReviewForm = (props) => {
   const [formMsg, setFormMsg] = useState("");
 
   const apiFetch = useAxios()
+
+  useEffect(()=>{
+    if (props.user_review) {
+      let new_state = { ...reviewData }
+      new_state.content = props.user_review.content
+      new_state.rating = props.user_review.rating
+      setReviewData(new_state)
+    }
+  }, [props.user_review])
 
   const onStarProgressClick = (e) => {
     let progressBound = e.target.getBoundingClientRect();
@@ -70,7 +79,6 @@ const ReviewForm = (props) => {
 
   const onUpdate = async (e) => {
     if (isFormValid()) {
-      console.log(reviewData.content)
       await apiFetch.post("/api/update_review/", {
         id: props.user_review?.id,
         content: reviewData.content,
