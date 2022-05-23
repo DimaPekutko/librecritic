@@ -11,10 +11,7 @@ cd librecritic
 ## Run
 You need to have docker compose for running.
 ```bash
-sudo docker compose build
-```
-```bash
-sudo docker compose up -d
+sudo docker compose up -d --build
 ```
 ## Tests
 ```bash
