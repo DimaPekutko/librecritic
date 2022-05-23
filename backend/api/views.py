@@ -112,7 +112,6 @@ def create_review(request):
         return 0
     
     loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
     tasks = [
         loop.create_task(_create_review()),
         loop.create_task(_update_book_rating())
