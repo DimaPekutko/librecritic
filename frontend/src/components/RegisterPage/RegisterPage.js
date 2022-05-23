@@ -1,32 +1,29 @@
 import React from 'react'
-
-const register = async (e) => {
-    e.preventDefault()
-    const res = await fetch("/api/register/", {
-        method: "POST",
-        headers: {
-            "Content-Type":"application/json" 
-        },
-        body: JSON.stringify({
-            email:     e.target.email.value,
-            username:  e.target.username.value,
-            password:  e.target.password.value
-        })
-    })
-    console.log(res)
-    if (res.status === 200) {
-        // const data = await res.json()
-        // const user = await get_user_data(data.access)
-        // setTokens(data)
-        // setUser(user)
-        // localStorage.setItem("auth_tokens", JSON.stringify(data))
-        // localStorage.setItem("user_data", JSON.stringify(user))
-        // navigate("/")
-    }
-}
+import { useNavigate} from 'react-router-dom'
 
 const RegisterPage = () => {
-    return (
+  const navigate = useNavigate()
+  
+  const register = async (e) => {
+    e.preventDefault()
+    const res = await fetch("/api/register/", {
+      method: "POST",
+      headers: {
+        "Content-Type":"application/json" 
+      },
+      body: JSON.stringify({
+        email:     e.target.email.value,
+        username:  e.target.username.value,
+        password:  e.target.password.value
+      })
+    })
+    if (res.status === 200) {
+      navigate("/login")
+    }
+  }
+  
+
+  return (
         <div className="page">
           <div className="login_form d-flex align-items-center justify-content-center">
             <form onSubmit={register}>
