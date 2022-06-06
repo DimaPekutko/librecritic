@@ -1,5 +1,7 @@
 # librecritic
 
+![Main page screenshot](https://github.com/DimaPekutko/librecritic/blob/main/public/screen1.png?raw=true)
+
 ### Django React Postgres Docker pet project.
 App available here https://librecritic.herokuapp.com 
 
